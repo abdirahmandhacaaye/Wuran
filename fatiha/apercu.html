@@ -4,83 +4,128 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Inter:wght@400;500&display=swap">
 <style>
 /* Mise en page : une scène 1080×1920 mise à l'échelle de l'écran, commandes en dessous.
-   Un seul look, sombre et voulu (nuit, or, vert profond). */
+   Quatre fonds au choix (data-fond sur #scene) ; la page autour reste sombre. */
 :root {
-  --nuit: #0B1D2E;
-  --vert: #0E2A24;
-  --or: #D8B56A;
-  --or-pale: #EAD7A4;
-  --creme: #F4EEDF;
-  --brume: #B9C2C9;
   --page: #071420;
+  --page-texte: #F4EEDF;
+  --page-sec: #B9C2C9;
+  --page-or: #D8B56A;
   --ar: "Amiri Quran", "Amiri", "Scheherazade New", serif;
   --fr: "Cormorant Garamond", Georgia, serif;
   --en: "Inter", system-ui, sans-serif;
   color-scheme: dark;
 }
+/* Fonds : chaque thème redéfinit les couleurs de la scène */
+#scene {
+  --fond: radial-gradient(120% 80% at 50% 35%, #12314A 0%, #0B1D2E 55%, #06111C 100%);
+  --fond2: radial-gradient(120% 80% at 50% 60%, #154036 0%, #0E2A24 55%, #061612 100%);
+  --texte: #F4EEDF; --or: #D8B56A; --or-titre: #EAD7A4; --sec: #B9C2C9;
+  --halo: rgba(216,181,106,.22); --motif-op: .13;
+}
+#scene[data-fond="aube"] {
+  --fond: radial-gradient(120% 80% at 50% 30%, #FBF4E4 0%, #F1E3C4 55%, #E3CDA0 100%);
+  --fond2: radial-gradient(120% 80% at 50% 70%, #FFF8EA 0%, #F3E4C6 55%, #E7D2A8 100%);
+  --texte: #2B2116; --or: #A2701F; --or-titre: #8A5C14; --sec: #5E5242;
+  --halo: rgba(255,255,255,.65); --motif-op: .22;
+}
+#scene[data-fond="etoiles"] {
+  --fond: radial-gradient(140% 70% at 50% 100%, #1A2B55 0%, #0A1230 45%, #03060F 100%);
+  --fond2: radial-gradient(140% 70% at 50% 100%, #3A2A55 0%, #141235 45%, #04050F 100%);
+  --texte: #F2F0FA; --or: #E6C77E; --or-titre: #F1DDA6; --sec: #B4BBD6;
+  --halo: rgba(120,140,220,.10); --motif-op: 1;
+}
+#scene[data-fond="etoiles"] #motif {
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 470px, #000 720px);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 0 470px, #000 720px);
+}
+#scene[data-fond="etoiles"] .verset, #scene[data-fond="etoiles"] #titre { text-shadow: 0 0 6px #03060F, 0 0 18px #03060F; }
+#scene[data-fond="mihrab"] {
+  --fond: radial-gradient(110% 70% at 50% 45%, #145442 0%, #0B3A2D 55%, #05201A 100%);
+  --fond2: radial-gradient(110% 70% at 50% 45%, #1A5E4A 0%, #0D4031 55%, #06231C 100%);
+  --texte: #F6F0DE; --or: #DDB867; --or-titre: #EED7A0; --sec: #BFD3CA;
+  --halo: rgba(221,184,103,.18); --motif-op: .16;
+}
 html, body { height: 100%; }
 body {
-  background: var(--page); color: var(--creme); font-family: var(--en);
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  background: var(--page); color: var(--page-texte); font-family: var(--en);
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
   padding-block: 16px;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   box-sizing: border-box;
 }
-#cadre { position: relative; width: min(100%, calc((100vh - 150px) * 9 / 16)); aspect-ratio: 9 / 16; max-width: 100%; }
+#cadre { position: relative; width: min(100%, calc((100vh - 230px) * 9 / 16)); min-width: 220px; aspect-ratio: 9 / 16; max-width: 100%; }
 #scene {
   position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; transform-origin: 0 0;
-  overflow: hidden; border-radius: 28px;
-  background: radial-gradient(120% 80% at 50% 35%, #12314A 0%, var(--nuit) 55%, #06111C 100%);
+  overflow: hidden; border-radius: 28px; background: var(--fond);
 }
-#fond-vert { position: absolute; inset: 0; opacity: 0;
-  background: radial-gradient(120% 80% at 50% 60%, #154036 0%, var(--vert) 55%, #061612 100%); }
+#fond2 { position: absolute; inset: 0; opacity: 0; background: var(--fond2); }
 #halo { position: absolute; width: 900px; height: 900px; left: 90px; top: 420px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(216,181,106,.22) 0%, rgba(216,181,106,0) 65%); }
-#etoile { position: absolute; width: 1500px; height: 1500px; left: -210px; top: 210px; opacity: .13; }
+  background: radial-gradient(circle, var(--halo) 0%, transparent 65%); }
+#motif { position: absolute; width: 1500px; height: 1500px; left: -210px; top: 210px; opacity: var(--motif-op); }
+#scene[data-fond="etoiles"] #motif { width: 2400px; height: 2400px; left: -660px; top: -240px; }
+#arche { position: absolute; left: 70px; top: 300px; width: 940px; height: 1420px; display: none; }
+#scene[data-fond="mihrab"] #arche { display: block; }
+#croissant { position: absolute; right: 150px; top: 150px; width: 120px; height: 120px; display: none; }
+#scene[data-fond="etoiles"] #croissant { display: block; }
 #camera { position: absolute; inset: 0; }
 .entete { position: absolute; top: 210px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 18px; }
-.entete .nom { font-family: "Amiri", serif; font-size: 46px; color: var(--or-pale); }
+.entete .nom { font-family: "Amiri", serif; font-size: 46px; color: var(--or-titre); }
 #medaillon { width: 96px; height: 96px; display: grid; place-items: center; position: relative; }
 #medaillon svg { position: absolute; inset: 0; }
-#medaillon span { font-family: "Amiri", serif; font-size: 40px; color: var(--creme); position: relative; }
+#medaillon rect { stroke: var(--or); }
+#medaillon span { font-family: "Amiri", serif; font-size: 40px; color: var(--texte); position: relative; }
 .verset { position: absolute; left: 90px; right: 90px; top: 420px; bottom: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 44px; text-align: center; opacity: 0; }
-.verset .ar { font-family: var(--ar); font-size: 92px; line-height: 1.75; direction: rtl; color: var(--creme); text-wrap: balance; }
+.verset .ar { font-family: var(--ar); font-size: 92px; line-height: 1.75; direction: rtl; color: var(--texte); text-wrap: balance; }
 .verset.long .ar { font-size: 74px; }
-.verset .trait { width: 520px; height: 3px; background: linear-gradient(90deg, rgba(216,181,106,0), var(--or), rgba(216,181,106,0)); transform-origin: 100% 50%; }
-.verset .fr { font-family: var(--fr); font-size: 50px; line-height: 1.3; color: var(--creme); text-wrap: balance; }
-.verset .en { font-family: var(--en); font-size: 36px; line-height: 1.45; color: var(--brume); text-wrap: balance; }
+.verset .trait { width: 520px; height: 3px; background: linear-gradient(90deg, transparent, var(--or), transparent); transform-origin: 100% 50%; }
+.verset .fr { font-family: var(--fr); font-size: 50px; line-height: 1.3; color: var(--texte); text-wrap: balance; }
+.verset .en { font-family: var(--en); font-size: 36px; line-height: 1.45; color: var(--sec); text-wrap: balance; }
 .verset.long .fr { font-size: 44px; }
 .verset.long .en { font-size: 33px; }
+#scene[data-fond="mihrab"] .verset { left: 150px; right: 150px; }
+#scene[data-fond="mihrab"] .verset .ar { font-size: 84px; }
+#scene[data-fond="mihrab"] .verset.long .ar { font-size: 66px; }
+#scene[data-fond="mihrab"] .verset.long .fr { font-size: 40px; }
+#scene[data-fond="mihrab"] .verset.long .en { font-size: 31px; }
 #titre { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px; text-align: center; }
-#titre .ar { font-family: var(--ar); font-size: 150px; color: var(--or-pale); direction: rtl; line-height: 1.6; margin-bottom: 20px; }
-#titre .sous { font-family: var(--fr); font-size: 46px; color: var(--creme); }
-#titre .sous2 { font-family: var(--en); font-size: 32px; color: var(--brume); letter-spacing: .12em; text-transform: uppercase; }
-#credit { position: absolute; bottom: 120px; left: 0; right: 0; text-align: center; font-family: var(--en); font-size: 28px; color: var(--brume); opacity: .8; }
-#commandes { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; max-width: 640px; }
+#titre .ar { font-family: var(--ar); font-size: 150px; color: var(--or-titre); direction: rtl; line-height: 1.6; margin-bottom: 20px; }
+#titre .sous { font-family: var(--fr); font-size: 46px; color: var(--texte); }
+#titre .sous2 { font-family: var(--en); font-size: 32px; color: var(--sec); letter-spacing: .12em; text-transform: uppercase; }
+
+.groupe { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; max-width: 680px; }
+.groupe .etiquette { font-size: 13px; color: var(--page-sec); margin-right: 4px; }
 button, label.fichier {
-  font: 500 14px var(--en); color: var(--page); background: var(--or); border: 0; border-radius: 999px;
+  font: 500 14px var(--en); color: var(--page); background: var(--page-or); border: 0; border-radius: 999px;
   padding: 9px 16px; cursor: pointer;
 }
-label.fichier { background: transparent; color: var(--or-pale); box-shadow: inset 0 0 0 1px var(--or); }
-button:focus-visible, label.fichier:focus-within { outline: 2px solid var(--creme); outline-offset: 2px; }
+button.choix { background: transparent; color: var(--page-texte); box-shadow: inset 0 0 0 1px #34485A; }
+button.choix[aria-pressed="true"] { background: var(--page-or); color: var(--page); box-shadow: none; }
+label.fichier { background: transparent; color: var(--page-or); box-shadow: inset 0 0 0 1px var(--page-or); }
+button:focus-visible, label.fichier:focus-within { outline: 2px solid var(--page-texte); outline-offset: 2px; }
 #audio-input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 #barre { width: min(640px, 100%); height: 4px; background: #1B2E3E; border-radius: 2px; overflow: hidden; }
-#barre i { display: block; height: 100%; width: 0; background: var(--or); }
-#note { font-size: 13px; color: var(--brume); max-width: 640px; text-align: center; line-height: 1.5; margin: 0; }
-@media (prefers-reduced-motion: reduce) { #etoile { display: none; } }
+#barre i { display: block; height: 100%; width: 0; background: var(--page-or); }
+#note { font-size: 13px; color: var(--page-sec); max-width: 640px; text-align: center; line-height: 1.5; margin: 0; }
+@media (prefers-reduced-motion: reduce) { #motif { display: none; } }
 </style>
 
 <div id="cadre">
-  <div id="scene" aria-label="Aperçu de la vidéo Al-Fatiha">
-    <div id="fond-vert"></div>
+  <div id="scene" data-fond="nuit" aria-label="Aperçu de la vidéo Al-Fatiha">
+    <div id="fond2"></div>
     <div id="halo"></div>
-    <canvas id="etoile" width="750" height="750"></canvas>
+    <canvas id="motif" width="800" height="800"></canvas>
+    <svg id="croissant" viewBox="0 0 120 120" aria-hidden="true"><path d="M78 12a50 50 0 1 0 30 78A42 42 0 1 1 78 12z" fill="#F1DDA6"/></svg>
+    <svg id="arche" viewBox="0 0 940 1420" aria-hidden="true" fill="none">
+      <path d="M40 1400 V560 C40 300 250 120 470 30 C690 120 900 300 900 560 V1400" stroke="#DDB867" stroke-width="3" opacity=".85"/>
+      <path d="M72 1400 V572 C72 330 270 160 470 74 C670 160 868 330 868 572 V1400" stroke="#DDB867" stroke-width="1.5" opacity=".45"/>
+      <circle cx="470" cy="190" r="10" fill="#DDB867" opacity=".9"/>
+    </svg>
     <div id="camera">
       <div class="entete" id="entete" style="opacity:0">
         <div class="nom">سورة الفاتحة</div>
         <div id="medaillon">
-          <svg viewBox="0 0 96 96"><g fill="none" stroke="#D8B56A" stroke-width="2"><rect x="20" y="20" width="56" height="56"/><rect x="20" y="20" width="56" height="56" transform="rotate(45 48 48)"/></g></svg>
+          <svg viewBox="0 0 96 96"><g fill="none" stroke-width="2"><rect x="20" y="20" width="56" height="56"/><rect x="20" y="20" width="56" height="56" transform="rotate(45 48 48)"/></g></svg>
           <span id="num">١</span>
         </div>
       </div>
@@ -90,18 +135,30 @@ button:focus-visible, label.fichier:focus-within { outline: 2px solid var(--crem
         <div class="sous">Al-Fatiha · L'Ouverture</div>
         <div class="sous2">The Opening</div>
       </div>
-      <div id="credit"></div>
     </div>
   </div>
 </div>
 
 <div id="barre" aria-hidden="true"><i id="progres"></i></div>
-<div id="commandes">
+<div class="groupe">
   <button id="lire" type="button">Lire</button>
   <button id="debut" type="button">Revenir au début</button>
-  <label class="fichier">Remplacer la récitation (MP3)<input id="audio-input" type="file" accept="audio/*"></label>
 </div>
-<p id="note">Aperçu sans son : les secondes de chaque verset sont provisoires. Ajoutez le fichier de la récitation pour voir le texte défiler avec la voix ; le calage exact viendra des temps mesurés sur l'audio.</p>
+<div class="groupe" role="group" aria-label="Fond">
+  <span class="etiquette">Fond</span>
+  <button class="choix" type="button" data-fond="nuit" aria-pressed="true">Nuit dorée</button>
+  <button class="choix" type="button" data-fond="aube" aria-pressed="false">Aube</button>
+  <button class="choix" type="button" data-fond="etoiles" aria-pressed="false">Ciel étoilé</button>
+  <button class="choix" type="button" data-fond="mihrab" aria-pressed="false">Mihrab</button>
+</div>
+<div class="groupe" role="group" aria-label="Voix">
+  <span class="etiquette">Voix</span>
+  <button class="choix" type="button" data-voix="mosquee" aria-pressed="true">Mosquée</button>
+  <button class="choix" type="button" data-voix="claire" aria-pressed="false">Claire</button>
+  <button class="choix" type="button" data-voix="brute" aria-pressed="false">Avant</button>
+  <label class="fichier">Autre fichier<input id="audio-input" type="file" accept="audio/*"></label>
+</div>
+<p id="note">Appuyez sur Lire : chaque verset apparaît quand il est récité.</p>
 <audio id="audio" preload="auto"></audio>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -110,26 +167,49 @@ button:focus-visible, label.fichier:focus-within { outline: 2px solid var(--crem
 (function () {
   const T = window.TEXTE, S = window.TEMPS;
   const chiffres = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
-
-  // Mise à l'échelle de la scène 1080×1920 dans son cadre
-  const cadre = document.getElementById("cadre"), scene = document.getElementById("scene");
+  const scene = document.getElementById("scene"), cadre = document.getElementById("cadre");
   const ajuster = () => { scene.style.transform = "scale(" + cadre.clientWidth / 1080 + ")"; };
   new ResizeObserver(ajuster).observe(cadre); ajuster();
 
-  // Étoile à 8 branches (motif en filigrane), dessinée sur canvas
-  const cv = document.getElementById("etoile"), cx = cv.getContext("2d");
-  (function dessiner() {
-    const c = 375; cx.strokeStyle = "#D8B56A"; cx.lineWidth = 2;
-    for (let r = 340; r > 40; r -= 60) {
-      for (let k = 0; k < 2; k++) {
-        cx.save(); cx.translate(c, c); cx.rotate(k * Math.PI / 4 + r / 400);
-        cx.strokeRect(-r / 1.414, -r / 1.414, r * 1.414, r * 1.414); cx.restore();
+  // Motif du fond, redessiné à chaque changement de fond (déterministe : même image à chaque rendu)
+  const cv = document.getElementById("motif"), cx = cv.getContext("2d");
+  function hasard(seed) { return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+  const dessins = {
+    nuit(couleur) { // étoile à 8 branches en anneaux
+      const c = 400; cx.strokeStyle = couleur; cx.lineWidth = 2;
+      for (let r = 360; r > 40; r -= 60) {
+        for (let k = 0; k < 2; k++) { cx.save(); cx.translate(c, c); cx.rotate(k * Math.PI / 4 + r / 400);
+          cx.strokeRect(-r / 1.414, -r / 1.414, r * 1.414, r * 1.414); cx.restore(); }
+        cx.globalAlpha = .5; cx.beginPath(); cx.arc(c, c, r * 0.98, 0, Math.PI * 2); cx.stroke(); cx.globalAlpha = 1;
       }
-      cx.beginPath(); cx.arc(c, c, r * 0.98, 0, Math.PI * 2); cx.globalAlpha = .5; cx.stroke(); cx.globalAlpha = 1;
+    },
+    aube(couleur) { // rayons de lumière et rosace fine
+      const c = 400; cx.strokeStyle = couleur; cx.lineWidth = 1.5;
+      for (let k = 0; k < 48; k++) { const a = k * Math.PI / 24;
+        cx.beginPath(); cx.moveTo(c + Math.cos(a) * 90, c + Math.sin(a) * 90); cx.lineTo(c + Math.cos(a) * 390, c + Math.sin(a) * 390); cx.stroke(); }
+      for (let k = 0; k < 12; k++) { cx.beginPath(); cx.arc(c + Math.cos(k * Math.PI / 6) * 60, c + Math.sin(k * Math.PI / 6) * 60, 60, 0, Math.PI * 2); cx.stroke(); }
+    },
+    etoiles() { // champ d'étoiles fixe
+      const r = hasard(11);
+      for (let i = 0; i < 520; i++) {
+        const x = r() * 800, y = r() * 800, t = r(), a = .25 + r() * .75;
+        cx.fillStyle = "rgba(255,248,230," + a + ")";
+        cx.beginPath(); cx.arc(x, y, t < .93 ? .7 + r() * .9 : 1.8 + r() * 1.2, 0, Math.PI * 2); cx.fill();
+      }
+    },
+    mihrab(couleur) { // zellige : grille d'étoiles à 8 branches
+      cx.strokeStyle = couleur; cx.lineWidth = 1.5; const pas = 100;
+      for (let y = 0; y <= 800; y += pas) for (let x = 0; x <= 800; x += pas) {
+        for (let k = 0; k < 2; k++) { cx.save(); cx.translate(x, y); cx.rotate(k * Math.PI / 4); cx.strokeRect(-28, -28, 56, 56); cx.restore(); }
+      }
     }
-  })();
+  };
+  function dessinerMotif(nom) {
+    cx.clearRect(0, 0, 800, 800);
+    dessins[nom](getComputedStyle(scene).getPropertyValue("--or").trim());
+  }
 
-  // Construire les versets
+  // Versets
   const zone = document.getElementById("versets");
   const els = T.versets.map(v => {
     const d = document.createElement("div");
@@ -144,11 +224,11 @@ button:focus-visible, label.fichier:focus-within { outline: 2px solid var(--crem
   // Timeline : toutes les secondes viennent de TEMPS
   const tl = gsap.timeline({ paused: true });
   tl.set({}, {}, S.duree);
-  tl.to("#etoile", { rotation: 40, ease: "none", duration: S.duree }, 0);
-  tl.to("#halo", { x: 0, y: -260, scale: 1.25, ease: "sine.inOut", duration: S.duree }, 0);
-  tl.to("#fond-vert", { opacity: 1, ease: "sine.inOut", duration: S.duree * 0.6 }, S.duree * 0.25);
+  tl.to("#motif", { rotation: 40, ease: "none", duration: S.duree }, 0);
+  tl.to("#halo", { y: -260, scale: 1.25, ease: "sine.inOut", duration: S.duree }, 0);
+  tl.to("#fond2", { opacity: 1, ease: "sine.inOut", duration: S.duree * 0.6 }, S.duree * 0.25);
+  tl.fromTo("#arche", { opacity: .55, scale: .97 }, { opacity: 1, scale: 1, ease: "sine.inOut", duration: S.duree }, 0);
 
-  // Titre : visible dès l'image 0, puis s'efface
   tl.fromTo("#titre", { scale: 1.0, y: 0 }, { scale: 1.04, y: -20, duration: S.titre.fin, ease: "sine.out" }, 0);
   tl.to("#titre", { opacity: 0, y: -80, filter: "blur(6px)", duration: 0.6, ease: "power2.in" }, S.titre.fin - 0.6);
   tl.fromTo("#entete", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.8, ease: "expo.out" }, S.titre.fin - 0.2);
@@ -163,16 +243,13 @@ button:focus-visible, label.fichier:focus-within { outline: 2px solid var(--crem
     tl.fromTo(q(".fr"), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .9, ease: "expo.out" }, t.debut + 0.5);
     tl.fromTo(q(".en"), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .9, ease: "expo.out" }, t.debut + 0.75);
     tl.fromTo("#camera", { scale: 1 }, { scale: 1.035, duration: t.fin - t.debut, ease: "none" }, t.debut);
-    // Le verset reste entier jusqu'à la fin de sa lecture, puis s'efface vers le haut
     tl.to(el, { opacity: 0, y: -60, filter: "blur(6px)", duration: .4, ease: "power2.in" }, t.fin);
   });
 
-  // Fin : le titre revient
-  tl.set("#credit", { textContent: "" }, 0);
   tl.to("#entete", { opacity: 0, duration: .4 }, S.fin.debut - 0.2);
   tl.fromTo("#titre", { opacity: 0, y: 60, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, ease: "expo.out", immediateRender: false }, S.fin.debut);
 
-  // Horloge : l'audio s'il y en a un, sinon la timeline elle-même
+  // Horloge : l'audio
   const audio = document.getElementById("audio"), lire = document.getElementById("lire");
   const progres = document.getElementById("progres");
   let avecAudio = false;
@@ -185,21 +262,36 @@ button:focus-visible, label.fichier:focus-within { outline: 2px solid var(--crem
     if (avecAudio) { audio.paused ? audio.play() : audio.pause(); return; }
     if (tl.isActive()) tl.pause(); else { if (tl.progress() >= 1) tl.time(0); tl.play(); }
   });
-  document.getElementById("debut").addEventListener("click", () => {
-    if (avecAudio) audio.currentTime = 0; tl.pause(0);
-  });
+  document.getElementById("debut").addEventListener("click", () => { if (avecAudio) audio.currentTime = 0; tl.pause(0); });
+
+  function choisir(attr, valeur) {
+    document.querySelectorAll("button[data-" + attr + "]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset[attr] === valeur)));
+  }
+  function changerVoix(src, nom) {
+    const t = audio.currentTime, jouait = !audio.paused;
+    audio.src = src; avecAudio = true;
+    audio.addEventListener("loadedmetadata", () => { audio.currentTime = t; if (jouait) audio.play(); }, { once: true });
+    document.getElementById("note").textContent = "Voix : " + nom + ". Appuyez sur Lire : chaque verset apparaît quand il est récité.";
+  }
+  const nomsVoix = { mosquee: "mosquée (écho de grande salle)", claire: "claire (nettoyée, sans écho)", brute: "avant (enregistrement nettoyé, sans réglage)" };
+  document.querySelectorAll("button[data-voix]").forEach(b => b.addEventListener("click", () => {
+    choisir("voix", b.dataset.voix); changerVoix(S.voix[b.dataset.voix], nomsVoix[b.dataset.voix]);
+  }));
   document.getElementById("audio-input").addEventListener("change", e => {
     const f = e.target.files[0]; if (!f) return;
-    audio.src = URL.createObjectURL(f); avecAudio = true; tl.pause(0);
-    document.getElementById("note").textContent = "Récitation chargée : " + f.name + ". Les versets suivent la voix (secondes encore provisoires).";
+    choisir("voix", ""); changerVoix(URL.createObjectURL(f), f.name);
   });
-  // Récitation par défaut : celle indiquée dans TEMPS
-  if (S.audio) {
-    audio.src = S.audio; avecAudio = true;
-    audio.addEventListener("error", () => { avecAudio = false; });
-    document.getElementById("note").textContent = "Récitation : votre voix. Appuyez sur Lire : chaque verset apparaît quand il est récité.";
+  function changerFond(nom) {
+    scene.dataset.fond = nom; choisir("fond", nom); dessinerMotif(nom);
+    try { localStorage.setItem("fatiha-fond", nom); } catch (e) {}
   }
-  window.__tl = tl;
+  document.querySelectorAll("button[data-fond]").forEach(b => b.addEventListener("click", () => changerFond(b.dataset.fond)));
+
+  let fond = "nuit";
+  try { const f = localStorage.getItem("fatiha-fond"); if (f && dessins[f]) fond = f; } catch (e) {}
+  changerFond(fond);
+  if (S.voix) changerVoix(S.voix.mosquee, nomsVoix.mosquee);
+  window.__tl = tl; window.__fond = changerFond;
   tl.time(0);
 })();
 </script>

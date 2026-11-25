@@ -1,6 +1,6 @@
 {
   "statut": "Mesuré sur votre enregistrement (pauses + reconnaissance vocale), décalé de 2,0 s d'introduction. À vérifier à l'oreille.",
-  "audio": "assets/fatiha-ma-voix.mp3",
+  "audio": "assets/fatiha-voix-mosquee.mp3",
   "duree": 35.2,
   "titre": {
     "debut": 0,
@@ -50,5 +50,10 @@
   "fin": {
     "debut": 32.2,
     "fin": 35.2
+  },
+  "voix": {
+    "mosquee": "assets/fatiha-voix-mosquee.mp3",
+    "claire": "assets/fatiha-voix-claire.mp3",
+    "brute": "assets/fatiha-ma-voix.mp3"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "statut": "PROVISOIRE : secondes estimées, à remplacer par celles mesurées sur la récitation",
+  "duree": 51.1,
+  "titre": { "debut": 0, "fin": 3.0 },
+  "versets": [
+    { "n": 1, "debut": 3.0,  "fin": 8.6 },
+    { "n": 2, "debut": 9.0,  "fin": 14.2 },
+    { "n": 3, "debut": 14.6, "fin": 19.0 },
+    { "n": 4, "debut": 19.4, "fin": 23.8 },
+    { "n": 5, "debut": 24.2, "fin": 31.0 },
+    { "n": 6, "debut": 31.4, "fin": 36.2 },
+    { "n": 7, "debut": 36.6, "fin": 48.4 }
+  ],
+  "fin": { "debut": 48.8, "fin": 51.1 }
+}

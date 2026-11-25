@@ -99,7 +99,7 @@ button:focus-visible, label.fichier:focus-within { outline: 2px solid var(--crem
 <div id="commandes">
   <button id="lire" type="button">Lire</button>
   <button id="debut" type="button">Revenir au début</button>
-  <label class="fichier">Ajouter la récitation (MP3)<input id="audio-input" type="file" accept="audio/*"></label>
+  <label class="fichier">Remplacer la récitation (MP3)<input id="audio-input" type="file" accept="audio/*"></label>
 </div>
 <p id="note">Aperçu sans son : les secondes de chaque verset sont provisoires. Ajoutez le fichier de la récitation pour voir le texte défiler avec la voix ; le calage exact viendra des temps mesurés sur l'audio.</p>
 <audio id="audio" preload="auto"></audio>
@@ -193,6 +193,12 @@ button:focus-visible, label.fichier:focus-within { outline: 2px solid var(--crem
     audio.src = URL.createObjectURL(f); avecAudio = true; tl.pause(0);
     document.getElementById("note").textContent = "Récitation chargée : " + f.name + ". Les versets suivent la voix (secondes encore provisoires).";
   });
+  // Récitation par défaut : celle indiquée dans TEMPS
+  if (S.audio) {
+    audio.src = S.audio; avecAudio = true;
+    audio.addEventListener("error", () => { avecAudio = false; });
+    document.getElementById("note").textContent = "Récitation : Mishary Alafasy. Appuyez sur Lire : chaque verset apparaît quand il est récité.";
+  }
   window.__tl = tl;
   tl.time(0);
 })();

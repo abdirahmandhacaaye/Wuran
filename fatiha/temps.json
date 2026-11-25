@@ -1,50 +1,54 @@
 {
-  "statut": "Mesuré sur l'audio : début et fin de chaque verset (fichiers verset par verset de Mishary Alafasy, cdn.islamic.network)",
-  "audio": "assets/fatiha-alafasy.mp3",
-  "duree": 54.222,
+  "statut": "Mesuré sur votre enregistrement (pauses + reconnaissance vocale), décalé de 2,0 s d'introduction. À vérifier à l'oreille.",
+  "audio": "assets/fatiha-ma-voix.mp3",
+  "duree": 35.2,
   "titre": {
     "debut": 0,
-    "fin": 2.5
+    "fin": 2.6
   },
   "versets": [
     {
       "n": 1,
-      "debut": 2.5,
-      "fin": 8.531
+      "debut": 2.6,
+      "fin": 6.0
     },
     {
       "n": 2,
-      "debut": 9.031,
-      "fin": 14.565
+      "debut": 6.1,
+      "fin": 9.75
     },
     {
       "n": 3,
-      "debut": 15.065,
-      "fin": 19.637
+      "debut": 10.1,
+      "fin": 12.6
     },
     {
       "n": 4,
-      "debut": 20.137,
-      "fin": 24.739
+      "debut": 12.8,
+      "fin": 15.5
     },
     {
       "n": 5,
-      "debut": 25.239,
-      "fin": 31.891
+      "debut": 15.95,
+      "fin": 20.1
     },
     {
       "n": 6,
-      "debut": 32.391,
-      "fin": 37.935
+      "debut": 20.45,
+      "fin": 23.4
     },
     {
       "n": 7,
-      "debut": 38.435,
-      "fin": 51.622
+      "debut": 23.85,
+      "fin": 32.05
     }
   ],
+  "amin": {
+    "debut": 32.06,
+    "fin": 33.42
+  },
   "fin": {
-    "debut": 51.922,
-    "fin": 54.222
+    "debut": 32.2,
+    "fin": 35.2
   }
 }
